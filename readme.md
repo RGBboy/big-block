@@ -8,9 +8,6 @@ server.
 
 [![Build Status](https://secure.travis-ci.org/RGBboy/big-block.png)](http://travis-ci.org/RGBboy/big-block)
 
-Big Block is being developed with multiplayer in mind so things like 
-client side prediction and lag compensation work out of the box.
-
 Big Block is still very early in development. Expect API changes.
 
 ## API
