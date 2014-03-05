@@ -67,7 +67,7 @@ test('component.getComponent should call entity.getComponent', function (t) {
 test('component.destroy should be a function', function (t) {
   setup(t);
   t.plan(1);
-  t.ok(component.destroy);
+  t.equal(typeof component.destroy, 'function');
   teardown(t);
 });
 
