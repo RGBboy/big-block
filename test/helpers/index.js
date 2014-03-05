@@ -8,14 +8,13 @@
 
 var Entity = require('./entity-mock'),
     Component = require('./component-mock');
+    Mocks = {
+      Entity: Entity,
+      Component: Component
+    };
 
 /**
  * Module Exports
- *
- * @param: {Object} sandbox, Sinon Sandbox
  */
 
-exports = module.exports = {
-  Entity: Entity,
-  Component: Component
-};
+exports = module.exports = Mocks;

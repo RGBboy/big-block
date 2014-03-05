@@ -8,16 +8,17 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "di": "latest"
+    "di": "2.0.0-pre-2",
   },
   "devDependencies": {
-    "tape": "x.x.x",
-    "sinon": "x.x.x",
-    "browserify": "x.x.x",
-    "testling": "x.x.x"
+    "tape": "latest",
+    "sinon": "latest",
+    "browserify": "latest",
+    "brfs": "latest",
+    "testling": "latest"
   },
   "testling": {
-    "files": [ "./test/*.js"],
+    "files": [ "./test/*.spec.js"],
     "browsers": [
       "ie/6..latest",
       "chrome/22..latest",
