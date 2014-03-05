@@ -3,7 +3,7 @@
 An javascript game engine designed to work in a browser and on a node.js 
 server.
 
-[![Browser Support](https://ci.testling.com/RGBboy/big-block.png)
+[![Browser Support](https://ci.testling.com/rgbboy/big-block.png)
 ](https://ci.testling.com/RGBboy/big-block)
 
 [![Build Status](https://secure.travis-ci.org/RGBboy/big-block.png)](http://travis-ci.org/RGBboy/big-block)
