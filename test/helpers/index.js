@@ -6,7 +6,8 @@
  * Module Dependencies
  */
 
-var Entity = require('./entity-mock');
+var Entity = require('./entity-mock'),
+    Component = require('./component-mock');
 
 /**
  * Module Exports
@@ -15,5 +16,6 @@ var Entity = require('./entity-mock');
  */
 
 exports = module.exports = {
-  Entity: Entity
+  Entity: Entity,
+  Component: Component
 };
