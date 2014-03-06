@@ -8,13 +8,12 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "di": "2.0.0-pre-2"
+    "di": "git+https://github.com/RGBboy/di.js.git#build-cjs"
   },
   "devDependencies": {
     "tape": "latest",
     "sinon": "latest",
     "browserify": "latest",
-    "brfs": "latest",
     "testling": "latest"
   },
   "testling": {
