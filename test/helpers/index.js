@@ -7,10 +7,12 @@
  */
 
 var Entity = require('./entity-mock'),
+    EntitySystem = require('./entity-system-mock'),
     Component = require('./component-mock'),
     ComponentSystem = require('./component-system-mock'),
     Mocks = {
       Entity: Entity,
+      EntitySystem: EntitySystem,
       Component: Component,
       ComponentSystem: ComponentSystem
     };
