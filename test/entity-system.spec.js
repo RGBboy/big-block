@@ -21,7 +21,7 @@ var setup = function (t) {
   sandbox = sinon.sandbox.create();
   EntityMock = sandbox.stub();
   CustomEntity = sandbox.stub();
-  entitySystem = EntitySystem(EntityMock);
+  entitySystem = new EntitySystem(EntityMock);
 };
 
 /**
@@ -39,6 +39,17 @@ var teardown = function (t) {
 test('Entity System', function (t) {
   t.plan(1);
   t.ok(EntitySystem, 'class should exist');
+});
+
+/**
+ * instance
+ */
+
+test('entitySystem should be an instanceof EntitySystem', function (t) {
+  setup(t);
+  t.plan(1);
+  t.ok(entitySystem instanceof EntitySystem, 'entitySystem is an instance of EntitySystem');
+  teardown(t);
 });
 
 /**
