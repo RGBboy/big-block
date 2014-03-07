@@ -55,15 +55,13 @@ test('bigBlock.get should return a instantiated singleton', function (t) {
   var game,
       testSystem;
 
-  function TestSystem (entitySystem) {
-    this.entitySystem = entitySystem;
+  TestSystem = function (entitySystem) {
+    t.ok(entitySystem, 'Injected System is correct instance');
+    t.pass('TestSystem called');
   };
 
-  t.plan(3);
+  t.plan(2);
   di.annotate(TestSystem, new di.InjectAnnotation(BigBlock.EntitySystem));
   game = BigBlock([TestSystem]);
   testSystem = game.get(TestSystem);
-  t.ok(testSystem instanceof TestSystem, 'testSystem is an instance of TestSystem');
-  t.ok(testSystem.entitySystem instanceof BigBlock.EntitySystem, 'Injected System is correct instance')
-  t.pass();
 });

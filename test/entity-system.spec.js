@@ -42,17 +42,6 @@ test('Entity System', function (t) {
 });
 
 /**
- * instance
- */
-
-test('entitySystem should be an instanceof EntitySystem', function (t) {
-  setup(t);
-  t.plan(1);
-  t.ok(entitySystem instanceof EntitySystem, 'entitySystem is an instance of EntitySystem');
-  teardown(t);
-});
-
-/**
  * entitySystem.create
  */
 
