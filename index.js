@@ -17,21 +17,21 @@ var BigBlock,
 /**
  * BigBlock
  *
+ * @param {Array} systems
  * @return {Game}
  * @api public
  */
-BigBlock = function (modules) {
+BigBlock = function (systems) {
 
   var self = {},
-      coreModules = [EntitySystem, ComponentSystem, Component, Entity],
-      gameModules,
+      coreSystems = [EntitySystem, ComponentSystem, Component, Entity],
       injector;
 
-  if (modules) {
-    coreModules = coreModules.concat(modules);
+  if (systems) {
+    coreSystems = coreSystems.concat(systems);
   };
 
-  injector = new di.Injector(coreModules);
+  injector = new di.Injector(coreSystems);
 
   self.get = function (token) {
     return injector.get(token);
