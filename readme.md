@@ -40,7 +40,7 @@ stable each time it passes.
 With [npm](http://npmjs.org) do:
 
 ```
-npm install -g big-block
+npm install big-block
 ```
 
 # Entities
