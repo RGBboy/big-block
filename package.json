@@ -13,6 +13,7 @@
     "di": "git+https://github.com/RGBboy/di.js.git#build-cjs"
   },
   "devDependencies": {
+    "di": "git+https://github.com/RGBboy/di.js.git#build-cjs",
     "tape": "latest",
     "sinon": "latest",
     "browserify": "latest",
