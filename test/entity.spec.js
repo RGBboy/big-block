@@ -97,6 +97,34 @@ test('entity.addComponent should not throw if 2 components with equal toString v
 });
 
 /**
+ * entity.hasComponent
+ */
+
+test('entity.hasComponent should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof entity.hasComponent, 'function');
+  teardown(t);
+});
+
+test('entity.hasComponent should return the true if entity has the component', function (t) {
+  var CustomComponent = function () {};
+  setup(t);
+  t.plan(1);
+  entity.addComponent(CustomComponent);
+  t.equal(entity.hasComponent(CustomComponent), true);
+  teardown(t);
+});
+
+test('entity.hasComponent should return the false if entity does not have the component', function (t) {
+  var CustomComponent = function () {};
+  setup(t);
+  t.plan(1);
+  t.equal(entity.hasComponent(CustomComponent), false);
+  teardown(t);
+});
+
+/**
  * entity.getComponent
  */
 
