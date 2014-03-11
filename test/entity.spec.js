@@ -62,23 +62,36 @@ test('entity.addComponent should be a function', function (t) {
 });
 
 test('entity.addComponent should return the value from ComponentSystem.create(type)', function (t) {
-  var componentType = 'test',
+  var CustomComponent = function () {},
       returnedComponent;
   setup(t);
   t.plan(2);
-  returnedComponent = entity.addComponent(componentType);
-  t.ok(componentSystemMock.create.calledWith(componentType), 'ComponentSystem called with type');
+  returnedComponent = entity.addComponent(CustomComponent);
+  t.ok(componentSystemMock.create.calledWith(CustomComponent), 'ComponentSystem called with type');
   t.equal(returnedComponent, componentMock);
   teardown(t);
 });
 
 test('entity.addComponent should throw if component has been already added', function (t) {
-  var componentType = 'test';
+  var CustomComponent = function () {};
   setup(t);
   t.plan(1);
-  entity.addComponent(componentType);
+  entity.addComponent(CustomComponent);
   t.throws(function () {
-    entity.addComponent(componentType);
+    entity.addComponent(CustomComponent);
+  });
+  teardown(t);
+});
+
+test('entity.addComponent should not throw if 2 components with equal toString values are added', function (t) {
+  var CustomComponent1 = function () {},
+      CustomComponent2 = function () {};
+  setup(t);
+  t.plan(2);
+  t.equal(CustomComponent1.toString(), CustomComponent2.toString());
+  entity.addComponent(CustomComponent1);
+  t.doesNotThrow(function () {
+    entity.addComponent(CustomComponent2);
   });
   teardown(t);
 });
@@ -95,20 +108,21 @@ test('entity.getComponent should be a function', function (t) {
 });
 
 test('entity.getComponent should return the correct component', function (t) {
-  var componentType = 'test',
+  var CustomComponent = function () {},
       returnedComponent;
   setup(t);
   t.plan(1);
-  returnedComponent = entity.addComponent(componentType);
-  t.equal(entity.getComponent(componentType), returnedComponent);
+  returnedComponent = entity.addComponent(CustomComponent);
+  t.equal(entity.getComponent(CustomComponent), returnedComponent);
   teardown(t);
 });
 
 test('entity.getComponent should throw if the component has not been added', function (t) {
+  var CustomComponent = function () {};
   setup(t);
   t.plan(1);
   t.throws(function () {
-    entity.getComponent('test');
+    entity.getComponent(CustomComponent);
   });
   teardown(t);
 });
@@ -125,26 +139,26 @@ test('entity.removeComponent should be a function', function (t) {
 });
 
 test('entity.removeComponent should remove the component', function (t) {
-  var componentType = 'test',
+  var CustomComponent = function () {},
       returnedComponent;
   setup(t);
   t.plan(2);
-  returnedComponent = entity.addComponent(componentType);
-  t.equal(entity.getComponent(componentType), returnedComponent);
-  entity.removeComponent(componentType);
+  returnedComponent = entity.addComponent(CustomComponent);
+  t.equal(entity.getComponent(CustomComponent), returnedComponent);
+  entity.removeComponent(CustomComponent);
   t.throws(function () {
-    entity.getComponent(componentType);
+    entity.getComponent(CustomComponent);
   });
   teardown(t);
 });
 
 test('entity.removeComponent should call component.destroy', function (t) {
-  var componentType = 'test',
+  var CustomComponent = function () {},
       returnedComponent;
   setup(t);
   t.plan(1);
-  returnedComponent = entity.addComponent(componentType);
-  entity.removeComponent(componentType);
+  returnedComponent = entity.addComponent(CustomComponent);
+  entity.removeComponent(CustomComponent);
   t.ok(returnedComponent.destroy.calledOnce, 'component.destroy called once');
   teardown(t);
 });
@@ -172,8 +186,8 @@ test('entity.destroy should emit a destroy event', function (t) {
 });
 
 test('entity.destroy should call destroy on all components', function (t) {
-    var componentType1 = 'test1',
-        componentType2 = 'test2',
+    var CustomComponent1 = function () {},
+        CustomComponent2 = function () {},
         componentMock1 = ComponentMock(sandbox),
         componentMock2 = ComponentMock(sandbox),
         returnedComponent1,
@@ -182,9 +196,9 @@ test('entity.destroy should call destroy on all components', function (t) {
     t.plan(2);
 
     componentSystemMock.create.returns(componentMock1);
-    returnedComponent1 = entity.addComponent(componentType1);
+    returnedComponent1 = entity.addComponent(CustomComponent1);
     componentSystemMock.create.returns(componentMock2);
-    returnedComponent2 = entity.addComponent(componentType2);
+    returnedComponent2 = entity.addComponent(CustomComponent2);
     entity.destroy();
 
     t.ok(returnedComponent1.destroy.calledOnce, 'component.destroy is called once');
