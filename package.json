@@ -2,6 +2,14 @@
   "name": "big-block",
   "version": "0.0.1",
   "description": "Big Block Javascript Game Engine",
+  "keywords": [
+    "big block",
+    "game engine"
+  ],
+  "repository" : {
+    "type" : "git", 
+    "url" : "https://github.com/RGBboy/big-block.git"
+  },
   "author": "RGBboy <l-_-l@rgbboy.com>",
   "main": "index.js",
   "engines": {
@@ -31,5 +39,6 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/tape ./test/*.spec.js"
-  }
+  },
+  "license": "MIT"
 }
