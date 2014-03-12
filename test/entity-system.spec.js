@@ -11,7 +11,8 @@ var test = require('tape'),
     sandbox,
     EntitySystem = require('../lib/entity-system'),
     entitySystem,
-    EntityMock;
+    EntityMock,
+    FamilyMock;
 
 /**
  * Setup
@@ -20,8 +21,9 @@ var test = require('tape'),
 var setup = function (t) {
   sandbox = sinon.sandbox.create();
   EntityMock = sandbox.stub();
+  FamilyMock = sandbox.stub();
   CustomEntity = sandbox.stub();
-  entitySystem = new EntitySystem(EntityMock);
+  entitySystem = new EntitySystem(FamilyMock, EntityMock);
 };
 
 /**
@@ -105,5 +107,34 @@ test('entitySystem.getFamily should be a function', function (t) {
   setup(t);
   t.plan(1);
   t.equal(typeof entitySystem.getFamily, 'function');
+  teardown(t);
+});
+
+test('entitySystem.getFamily should return a family', function (t) {
+  var family,
+      Component1 = function () {},
+      Component2 = function () {};
+  setup(t);
+  t.plan(6);
+  family = entitySystem.getFamily(Component1, Component2);
+  t.ok(family instanceof FamilyMock, 'return value should be instance of Family');
+  t.ok(FamilyMock.calledOnce, 'Family should be called once');
+  t.ok(FamilyMock.calledWithNew, 'Family should be called with new');
+  t.equal(FamilyMock.firstCall.args[0][0], Component1);
+  t.equal(FamilyMock.firstCall.args[0][1], Component2);
+  t.equal(FamilyMock.firstCall.args[1], entitySystem);
+  teardown(t);
+});
+
+test('entitySystem.getFamily should return the same family if it exists', function (t) {
+  var family1,
+      family2,
+      Component1 = function () {},
+      Component2 = function () {};
+  setup(t);
+  t.plan(1);
+  family1 = entitySystem.getFamily(Component1, Component2);
+  family2 = entitySystem.getFamily(Component1, Component2);
+  t.equal(family1, family2);
   teardown(t);
 });
