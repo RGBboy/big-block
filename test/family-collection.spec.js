@@ -37,78 +37,78 @@ test('FamilyCollection', function (t) {
 });
 
 /**
- * familyCollection.find
+ * familyCollection.get
  */
 
-test('familyCollection.find should be a function', function (t) {
+test('familyCollection.get should be a function', function (t) {
   setup(t);
   t.plan(1);
-  t.equal(typeof familyCollection.find, 'function');
+  t.equal(typeof familyCollection.get, 'function');
   teardown(t);
 });
 
-test('familyCollection.find should return a stored family', function (t) {
+test('familyCollection.get should return a stored family', function (t) {
   var key1 = {},
       key2 = {},
       key3 = {},
       value = {};
   setup(t);
   t.plan(1);
-  familyCollection.store([key1, key2, key3], value);
-  t.equal(familyCollection.find([key1, key2, key3]), value);
+  familyCollection.set([key1, key2, key3], value);
+  t.equal(familyCollection.get([key1, key2, key3]), value);
   teardown(t);
 });
 
-test('familyCollection.find should return a stored family no matter the order of keys', function (t) {
+test('familyCollection.get should return a stored family no matter the order of keys', function (t) {
   var key1 = {},
       key2 = {},
       key3 = {},
       value = {};
   setup(t);
   t.plan(1);
-  familyCollection.store([key1, key2, key3], value);
-  t.equal(familyCollection.find([key2, key1, key3]), value);
+  familyCollection.set([key1, key2, key3], value);
+  t.equal(familyCollection.get([key2, key1, key3]), value);
   teardown(t);
 });
 
-test('familyCollection.find should return undefined when nothing is stored against commutative key', function (t) {
+test('familyCollection.get should return undefined when nothing is stored against commutative key', function (t) {
   var key1 = {},
       key2 = {},
       key3 = {};
   setup(t);
   t.plan(1);
-  t.equal(familyCollection.find([key2, key1, key3]), undefined);
+  t.equal(familyCollection.get([key2, key1, key3]), undefined);
   teardown(t);
 });
 
 /**
- * familyCollection.store
+ * familyCollection.set
  */
 
-test('familyCollection.store should be a function', function (t) {
+test('familyCollection.set should be a function', function (t) {
   setup(t);
   t.plan(1);
-  t.equal(typeof familyCollection.store, 'function');
+  t.equal(typeof familyCollection.set, 'function');
   teardown(t);
 });
 
-test('familyCollection.store should throw if passed an array of 0 length', function (t) {
+test('familyCollection.set should throw if passed an array of 0 length', function (t) {
   setup(t);
   t.plan(1);
   t.throws(function () {
-    familyCollection.store([], value);
+    familyCollection.set([], value);
   });
   teardown(t);
 });
 
-test('familyCollection.store should throw if not passed an array of tokens', function (t) {
+test('familyCollection.set should throw if not passed an array of tokens', function (t) {
   setup(t);
   t.plan(2);
   t.throws(function () {
-    familyCollection.store({}, value);
+    familyCollection.set({}, value);
   });
   t.throws(function () {
-    familyCollection.store('t', value);
+    familyCollection.set('t', value);
   });
   teardown(t);
 });
