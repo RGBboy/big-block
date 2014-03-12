@@ -16,7 +16,8 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "di": "git+https://github.com/RGBboy/di.js.git#build-cjs"
+    "di": "git+https://github.com/RGBboy/di.js.git#build-cjs",
+    "es6-shim": "*"
   },
   "devDependencies": {
     "tape": "latest",
@@ -38,7 +39,7 @@
     ]
   },
   "scripts": {
-    "test": "./node_modules/.bin/tape ./test/*.spec.js"
+    "test": "./node_modules/.bin/tape ./test/*.spec.js ./test/*.e2e.js"
   },
   "license": "MIT"
 }
