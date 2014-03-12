@@ -116,7 +116,7 @@ test('entitySystem.getFamily should return a family', function (t) {
       Component2 = function () {};
   setup(t);
   t.plan(6);
-  family = entitySystem.getFamily(Component1, Component2);
+  family = entitySystem.getFamily([Component1, Component2]);
   t.ok(family instanceof FamilyMock, 'return value should be instance of Family');
   t.ok(FamilyMock.calledOnce, 'Family should be called once');
   t.ok(FamilyMock.calledWithNew, 'Family should be called with new');
@@ -133,8 +133,8 @@ test('entitySystem.getFamily should return the same family if it exists', functi
       Component2 = function () {};
   setup(t);
   t.plan(1);
-  family1 = entitySystem.getFamily(Component1, Component2);
-  family2 = entitySystem.getFamily(Component1, Component2);
+  family1 = entitySystem.getFamily([Component1, Component2]);
+  family2 = entitySystem.getFamily([Component2, Component1]);
   t.equal(family1, family2);
   teardown(t);
 });
