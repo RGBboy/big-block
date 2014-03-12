@@ -18,7 +18,6 @@ var ComponentSystemMock;
 
 ComponentSystemMock = function (sandbox) {
   var componentSystem = sandbox.stub();
-  componentSystem.register = sandbox.stub();
   componentSystem.create = sandbox.stub();
   return componentSystem;
 };
