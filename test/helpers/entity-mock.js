@@ -18,6 +18,7 @@ var EntityMock;
 EntityMock = function (sandbox) {
   var entity = sandbox.stub();
   entity.addComponent = sandbox.stub();
+  entity.hasComponent = sandbox.stub();
   entity.getComponent = sandbox.stub();
   entity.removeComponent = sandbox.stub();
   entity.destroy = sandbox.stub();
