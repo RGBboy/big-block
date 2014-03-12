@@ -56,14 +56,54 @@ test('entitySystem.create should return an instance of a registered entity class
   var customEntity;
 
   setup(t);
-  t.plan(4);
+  t.plan(3);
 
   customEntity = entitySystem.create(CustomEntity);
 
-  t.ok(customEntity instanceof CustomEntity, 'return value should be instance of registered component');
+  t.ok(customEntity instanceof EntityMock, 'return value should be instance of Entity');
   t.ok(CustomEntity.calledOnce, 'CustomEntity should be called once');
-  t.ok(CustomEntity.calledWithNew(), 'CustomEntity should be called with new');
   t.ok(CustomEntity.firstCall.args[0] instanceof EntityMock, 'CustomEntity should be called with instance of Entity');
 
+  teardown(t);
+});
+
+/**
+ * entitySystem.forEach
+ */
+
+test('entitySystem.forEach should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof entitySystem.forEach, 'function');
+  teardown(t);
+});
+
+test('entitySystem.forEach should call passed function with each entity', function (t) {
+  var entities = [];
+
+  setup(t);
+  t.plan(2);
+
+  entities.push(entitySystem.create(CustomEntity));
+  entities.push(entitySystem.create(CustomEntity));
+
+  entitySystem.forEach(function (entity) {
+    var index = entities.indexOf(entity);
+    t.ok(index !== -1, 'Entity exists in created entities');
+    entities.splice(index, 1);
+    if (entities.length === 0) {
+      teardown(t);
+    };
+  });
+});
+
+/**
+ * entitySystem.getFamily
+ */
+
+test('entitySystem.getFamily should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof entitySystem.getFamily, 'function');
   teardown(t);
 });
