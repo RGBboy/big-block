@@ -17,7 +17,7 @@ var EntitySystemMock;
  */
 
 EntitySystemMock = function (sandbox) {
-  var entity = sandbox.stub();
+  var entitySystem = sandbox.stub();
   entitySystem.register = sandbox.stub();
   entitySystem.create = sandbox.stub();
   return entitySystem;
