@@ -1,3 +1,4 @@
+'use strict';
 /*!
  * Entity unit tests
  */
@@ -14,9 +15,9 @@ var test = require('tape'),
     entity,
     helpers = require('./helpers'),
     ComponentMock = helpers.Component,
-    component,
+    componentMock,
     ComponentSystemMock = helpers.ComponentSystem,
-    componentSystem;
+    componentSystemMock;
 
 /**
  * Setup

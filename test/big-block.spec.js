@@ -1,3 +1,4 @@
+'use strict';
 /*!
  * Big Block unit tests
  */
@@ -53,6 +54,7 @@ test('bigBlock.get should be a function', function (t) {
 
 test('bigBlock.get should return a instantiated singleton', function (t) {
   var game,
+      TestSystem,
       testSystem;
 
   TestSystem = function (entitySystem) {
