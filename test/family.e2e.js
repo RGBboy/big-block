@@ -148,6 +148,53 @@ test('family.forEach should callback with the correct entities', function (t) {
 
 });
 
+test('family.forEach should callback with the correct entities when they are added in the entity function and the family is instantiated before the entities are created', function (t) {
+  var customEntity1,
+      customEntity2,
+      customEntity3,
+      CustomComponent1,
+      CustomComponent2,
+      familyTokens,
+      family,
+      testCount = 0,
+      expectedFamilyEntities,
+      entities = [];
+
+  setup(t);
+  t.plan(3);
+
+  CustomComponent1 = function () {};
+  CustomComponent2 = function () {};
+
+  CustomEntity = function (scope) {
+    scope.addComponent(CustomComponent1);
+    scope.addComponent(CustomComponent2);
+  };
+
+  familyTokens = [CustomComponent1, CustomComponent2];
+  family = entitySystem.getFamily(familyTokens);
+
+  customEntity1 = entitySystem.create(CustomEntity);
+  customEntity2 = entitySystem.create(CustomEntity);
+  customEntity3 = entitySystem.create(CustomEntity);
+
+  customEntity3.removeComponent(CustomComponent1);
+
+  expectedFamilyEntities = [customEntity1, customEntity2];
+
+  family.forEach(function (entity) {
+    testCount += 1;
+    var index = expectedFamilyEntities.indexOf(entity);
+    t.ok(index !== -1, 'Entity exists in family');
+    expectedFamilyEntities.splice(index, 1);
+    if (expectedFamilyEntities.length === 0) {
+      t.equal(testCount, 2);
+      teardown(t);
+    };
+  });
+
+});
+
 test('family.forEach should callback with the correct entities when matching entities are added after the family is created', function (t) {
   var customEntity1,
       customEntity2,
