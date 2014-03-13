@@ -19,8 +19,7 @@ var test = require('tape'),
     Component,
     componentSystem,
     Entity,
-    entitySystem,
-    CustomEntity;
+    entitySystem;
 
 /**
  * Setup
@@ -33,7 +32,6 @@ var setup = function (t) {
   componentSystem = ComponentSystem(Component);
   Entity = EntityProvider(componentSystem);
   entitySystem = EntitySystem(Family, Entity);
-  CustomEntity = function () {};
 };
 
 /**
@@ -67,9 +65,9 @@ test('family.hasEntity should return a family', function (t) {
 
   familyTokens = [CustomComponent1, CustomComponent2];
 
-  customEntity1 = entitySystem.create(CustomEntity);
-  customEntity2 = entitySystem.create(CustomEntity);
-  customEntity3 = entitySystem.create(CustomEntity);
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
 
   customEntity1.addComponent(CustomComponent1);
   customEntity1.addComponent(CustomComponent2);
@@ -117,9 +115,9 @@ test('family.forEach should callback with the correct entities', function (t) {
 
   familyTokens = [CustomComponent1, CustomComponent2];
 
-  customEntity1 = entitySystem.create(CustomEntity);
-  customEntity2 = entitySystem.create(CustomEntity);
-  customEntity3 = entitySystem.create(CustomEntity);
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
 
   customEntity1.addComponent(CustomComponent1);
   customEntity1.addComponent(CustomComponent2);
@@ -149,7 +147,8 @@ test('family.forEach should callback with the correct entities', function (t) {
 });
 
 test('family.forEach should callback with the correct entities when they are added in the entity function and the family is instantiated before the entities are created', function (t) {
-  var customEntity1,
+  var CustomEntity,
+      customEntity1,
       customEntity2,
       customEntity3,
       CustomComponent1,
@@ -218,9 +217,9 @@ test('family.forEach should callback with the correct entities when matching ent
   familyTokens = [CustomComponent1, CustomComponent2];
   family = entitySystem.getFamily(familyTokens);
 
-  customEntity1 = entitySystem.create(CustomEntity);
-  customEntity2 = entitySystem.create(CustomEntity);
-  customEntity3 = entitySystem.create(CustomEntity);
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
 
   customEntity1.addComponent(CustomComponent1);
   customEntity1.addComponent(CustomComponent2);
@@ -266,8 +265,8 @@ test('family.forEach should callback with the correct entities when entities are
   familyTokens = [CustomComponent1];
   family = entitySystem.getFamily(familyTokens);
 
-  customEntity1 = entitySystem.create(CustomEntity);
-  customEntity2 = entitySystem.create(CustomEntity);
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
 
   customEntity1.addComponent(CustomComponent1);
   customEntity1.addComponent(CustomComponent2);
@@ -311,8 +310,8 @@ test('family.forEach should callback with the correct entities when entities hav
   familyTokens = [CustomComponent1];
   family = entitySystem.getFamily(familyTokens);
 
-  customEntity1 = entitySystem.create(CustomEntity);
-  customEntity2 = entitySystem.create(CustomEntity);
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
 
   customEntity1.addComponent(CustomComponent1);
   customEntity1.addComponent(CustomComponent2);
@@ -359,7 +358,7 @@ test('family should emit an added event when entities are added', function (t) {
     eventEntity = entity;
   });
 
-  customEntity = entitySystem.create(CustomEntity);
+  customEntity = entitySystem.create();
   customEntity.addComponent(CustomComponent);
 
   t.ok(fired, 'added fired');
@@ -386,7 +385,7 @@ test('family should emit a removed event when entities are removed', function (t
 
   family = entitySystem.getFamily([CustomComponent]);
 
-  customEntity = entitySystem.create(CustomEntity);
+  customEntity = entitySystem.create();
   customEntity.addComponent(CustomComponent);
 
   family.on('removed', function (entity) {
