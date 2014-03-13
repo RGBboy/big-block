@@ -1,3 +1,4 @@
+'use strict';
 /*!
  * Entity System unit tests
  */
@@ -11,6 +12,7 @@ var test = require('tape'),
     sandbox,
     EntitySystem = require('../lib/entity-system'),
     entitySystem,
+    CustomEntity,
     EntityMock,
     FamilyMock;
 
