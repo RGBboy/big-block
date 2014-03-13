@@ -288,3 +288,68 @@ test('family.forEach should callback with the correct entities when entities hav
   teardown(t);
 
 });
+
+/**
+ * family added event
+ */
+
+test('family should emit an added event when entities are added', function (t) {
+  var customEntity,
+      CustomComponent,
+      family,
+      eventEntity,
+      fired = false;
+
+  setup(t);
+  t.plan(2);
+
+  CustomComponent = function () {};
+
+  family = entitySystem.getFamily([CustomComponent]);
+
+  family.on('added', function (entity) {
+    fired = true;
+    eventEntity = entity;
+  });
+
+  customEntity = entitySystem.create(CustomEntity);
+  customEntity.addComponent(CustomComponent);
+
+  t.ok(fired, 'added fired');
+  t.equal(eventEntity, customEntity);
+  teardown(t);
+
+});
+
+
+/**
+ * family removed event
+ */
+test('family should emit a removed event when entities are removed', function (t) {
+  var customEntity,
+      CustomComponent,
+      family,
+      eventEntity,
+      fired = false;
+
+  setup(t);
+  t.plan(2);
+
+  CustomComponent = function () {};
+
+  family = entitySystem.getFamily([CustomComponent]);
+
+  customEntity = entitySystem.create(CustomEntity);
+  customEntity.addComponent(CustomComponent);
+
+  family.on('removed', function (entity) {
+    fired = true;
+    eventEntity = entity;
+  });
+
+  customEntity.removeComponent(CustomComponent);
+
+  t.ok(fired, 'removed fired');
+  t.equal(eventEntity, customEntity);
+  teardown(t);
+});
