@@ -6,7 +6,8 @@
  * Module Dependencies
  */
 
-var EntityMock;
+var EntityMock,
+    EventEmitter = require('events').EventEmitter;
 
 /**
  * EntityMock
@@ -16,7 +17,7 @@ var EntityMock;
  * @api public
  */
 EntityMock = function (sandbox) {
-  var entity = sandbox.stub();
+  var entity = new EventEmitter();
   entity.addComponent = sandbox.stub();
   entity.hasComponent = sandbox.stub();
   entity.getComponent = sandbox.stub();
