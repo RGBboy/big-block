@@ -96,6 +96,20 @@ test('entity.addComponent should not throw if 2 components with equal toString v
   teardown(t);
 });
 
+test('entity.addComponent should trigger a componentadded event', function (t) {
+  var CustomComponent = function () {},
+      customComponent,
+      eventComponent;
+  setup(t);
+  t.plan(2);
+  entity.on('componentadded', function (eventEntity) {
+    t.pass('componentadded fired');
+    t.equal(entity, eventEntity);
+    teardown(t);
+  });
+  entity.addComponent(CustomComponent);
+});
+
 /**
  * entity.hasComponent
  */
@@ -191,6 +205,21 @@ test('entity.removeComponent should call component.destroy', function (t) {
   teardown(t);
 });
 
+test('entity.removeComponent should trigger a componentremoved event', function (t) {
+  var CustomComponent = function () {},
+      customComponent,
+      eventComponent;
+  setup(t);
+  t.plan(2);
+  entity.on('componentremoved', function (eventEntity) {
+    t.pass('componentremoved fired');
+    t.equal(entity, eventEntity);
+    teardown(t);
+  });
+  entity.addComponent(CustomComponent);
+  entity.removeComponent(CustomComponent);
+});
+
 /**
  * entity.destroy
  */
@@ -206,7 +235,7 @@ test('entity.destroy should emit a destroy event', function (t) {
     setup(t);
     t.plan(2);
     entity.on('destroy', function (data) {
-      t.pass('fire destroy');
+      t.pass('destroy fired');
       t.equal(entity, data);
     });
     entity.destroy();
