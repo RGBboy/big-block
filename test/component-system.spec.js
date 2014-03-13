@@ -9,12 +9,14 @@
 var test = require('tape'),
     sinon = require('sinon'),
     sandbox,
+    helpers = require('./helpers'),
     ComponentSystem = require('../lib/component-system'),
     componentSystem,
-    EntityMock = require('./helpers').Entity,
+    EntityMock = helpers.Entity,
     entityMock,
     ComponentMock,
-    CustomComponent;
+    CustomComponent,
+    createdComponents;
 
 /**
  * Setup
@@ -22,7 +24,12 @@ var test = require('tape'),
 
 var setup = function (t) {
   sandbox = sinon.sandbox.create();
-  ComponentMock = sandbox.stub();
+  createdComponents = [];
+  ComponentMock = function () {
+    var component = helpers.Component(sandbox);
+    createdComponents.push(component);
+    return component;
+  };
   CustomComponent = sandbox.stub();
   componentSystem = ComponentSystem(ComponentMock);
   entityMock = EntityMock(sandbox);
@@ -56,18 +63,17 @@ test('componentSystem.create should be a function', function (t) {
   teardown(t);
 });
 
-test('componentSystem.create should return an instance of a registered component class', function (t) {
+test('componentSystem.create should return the value returned by calling Component', function (t) {
   var customComponent;
 
   setup(t);
-  t.plan(4);
+  t.plan(3);
 
   customComponent = componentSystem.create(CustomComponent, entityMock);
 
-  t.ok(customComponent instanceof CustomComponent, 'return value should be instance of registered component');
+  t.equal(customComponent, createdComponents[0]);
   t.ok(CustomComponent.calledOnce, 'CustomComponent should be called once');
-  t.ok(CustomComponent.calledWithNew(), 'CustomComponent should be called with new');
-  t.ok(CustomComponent.firstCall.args[0] instanceof ComponentMock, 'CustomComponent should be called with instance of Component');
+  t.equal(CustomComponent.firstCall.args[0], createdComponents[0]);
 
   teardown(t);
 });
@@ -75,12 +81,14 @@ test('componentSystem.create should return an instance of a registered component
 test('componentSystem.create should pass the entity to the new Component', function (t) {
 
   setup(t);
-  t.plan(3);
+  t.plan(2);
+
+  ComponentMock = sandbox.stub();
+  componentSystem = ComponentSystem(ComponentMock);
 
   componentSystem.create(CustomComponent, entityMock);
 
   t.ok(ComponentMock.calledOnce, 'Component should be called once');
-  t.ok(ComponentMock.calledWithNew(), 'Component should be called with new');
   t.ok(ComponentMock.calledWith(entityMock), 'Component should be called with entity');
 
   teardown(t);
