@@ -10,11 +10,13 @@
 var test = require('tape'),
     sinon = require('sinon'),
     sandbox,
+    helpers = require('./helpers'),
     EntitySystem = require('../lib/entity-system'),
     entitySystem,
     CustomEntity,
     EntityMock,
-    FamilyMock;
+    FamilyMock,
+    createdEntities;
 
 /**
  * Setup
@@ -22,7 +24,12 @@ var test = require('tape'),
 
 var setup = function (t) {
   sandbox = sinon.sandbox.create();
-  EntityMock = sandbox.stub();
+  createdEntities = [];
+  EntityMock = function () {
+    var entity = helpers.Entity(sandbox);
+    createdEntities.push(entity);
+    return entity;
+  };
   FamilyMock = sandbox.stub();
   CustomEntity = sandbox.stub();
   entitySystem = new EntitySystem(FamilyMock, EntityMock);
@@ -64,9 +71,9 @@ test('entitySystem.create should return an instance of a registered entity class
 
   customEntity = entitySystem.create(CustomEntity);
 
-  t.ok(customEntity instanceof EntityMock, 'return value should be instance of Entity');
+  t.equal(customEntity, createdEntities[0]);
   t.ok(CustomEntity.calledOnce, 'CustomEntity should be called once');
-  t.ok(CustomEntity.firstCall.args[0] instanceof EntityMock, 'CustomEntity should be called with instance of Entity');
+  t.equal(CustomEntity.firstCall.args[0], createdEntities[0]);
 
   teardown(t);
 });
@@ -152,5 +159,24 @@ test('entitySystem.getFamily should return the same family if it exists', functi
   family1 = entitySystem.getFamily([Component1, Component2]);
   family2 = entitySystem.getFamily([Component2, Component1]);
   t.equal(family1, family2);
+  teardown(t);
+});
+
+/**
+ * entitySystem removed event
+ */
+
+test('entitySystem should emit a removed event when an entity emits destroy', function (t) {
+  var customEntity,
+      eventEntity;
+  setup(t);
+  t.plan(2);
+  entitySystem.on('removed', function (entity) {
+    t.pass('entitySystem removed event fired.');
+    eventEntity = entity;
+  });
+  customEntity = entitySystem.create(CustomEntity);
+  customEntity.emit('destroy', customEntity);
+  t.equal(eventEntity, customEntity);
   teardown(t);
 });
