@@ -63,7 +63,7 @@ test('entitySystem.create should be a function', function (t) {
   teardown(t);
 });
 
-test('entitySystem.create should return an instance of a registered entity class', function (t) {
+test('entitySystem.create should return the value returned by calling Entity', function (t) {
   var customEntity;
 
   setup(t);
