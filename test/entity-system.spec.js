@@ -71,6 +71,20 @@ test('entitySystem.create should return an instance of a registered entity class
   teardown(t);
 });
 
+test('entitySystem.create should trigger an added event', function (t) {
+  var customEntity,
+      eventEntity;
+  setup(t);
+  t.plan(2);
+  entitySystem.on('added', function (entity) {
+    t.pass('entitySystem added event fired.');
+    eventEntity = entity;
+  });
+  customEntity = entitySystem.create(CustomEntity);
+  t.equal(eventEntity, customEntity);
+  teardown(t);
+});
+
 /**
  * entitySystem.forEach
  */
