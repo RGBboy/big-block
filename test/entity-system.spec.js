@@ -67,16 +67,29 @@ test('entitySystem.create should return the value returned by calling Entity', f
   var customEntity;
 
   setup(t);
-  t.plan(3);
+  t.plan(1);
+
+  customEntity = entitySystem.create();
+
+  t.equal(customEntity, createdEntities[0]);
+
+  teardown(t);
+});
+
+test('entitySystem.create should call the passed function with the created Entity', function (t) {
+  var customEntity;
+
+  setup(t);
+  t.plan(2);
 
   customEntity = entitySystem.create(CustomEntity);
 
-  t.equal(customEntity, createdEntities[0]);
   t.ok(CustomEntity.calledOnce, 'CustomEntity should be called once');
   t.equal(CustomEntity.firstCall.args[0], createdEntities[0]);
 
   teardown(t);
 });
+
 
 test('entitySystem.create should trigger an added event', function (t) {
   var customEntity,
