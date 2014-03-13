@@ -64,25 +64,25 @@ test('entitySystem.create should be a function', function (t) {
 });
 
 test('entitySystem.create should return the value returned by calling Entity', function (t) {
-  var customEntity;
+  var entity;
 
   setup(t);
   t.plan(1);
 
-  customEntity = entitySystem.create();
+  entity = entitySystem.create();
 
-  t.equal(customEntity, createdEntities[0]);
+  t.equal(entity, createdEntities[0]);
 
   teardown(t);
 });
 
 test('entitySystem.create should call the passed function with the created Entity', function (t) {
-  var customEntity;
+  var entity;
 
   setup(t);
   t.plan(2);
 
-  customEntity = entitySystem.create(CustomEntity);
+  entity = entitySystem.create(CustomEntity);
 
   t.ok(CustomEntity.calledOnce, 'CustomEntity should be called once');
   t.equal(CustomEntity.firstCall.args[0], createdEntities[0]);
@@ -92,7 +92,7 @@ test('entitySystem.create should call the passed function with the created Entit
 
 
 test('entitySystem.create should trigger an added event', function (t) {
-  var customEntity,
+  var entity,
       eventEntity;
   setup(t);
   t.plan(2);
@@ -100,8 +100,8 @@ test('entitySystem.create should trigger an added event', function (t) {
     t.pass('entitySystem added event fired.');
     eventEntity = entity;
   });
-  customEntity = entitySystem.create(CustomEntity);
-  t.equal(eventEntity, customEntity);
+  entity = entitySystem.create();
+  t.equal(eventEntity, entity);
   teardown(t);
 });
 
@@ -122,8 +122,8 @@ test('entitySystem.forEach should call passed function with each entity', functi
   setup(t);
   t.plan(2);
 
-  entities.push(entitySystem.create(CustomEntity));
-  entities.push(entitySystem.create(CustomEntity));
+  entities.push(entitySystem.create());
+  entities.push(entitySystem.create());
 
   entitySystem.forEach(function (entity) {
     var index = entities.indexOf(entity);
@@ -180,7 +180,7 @@ test('entitySystem.getFamily should return the same family if it exists', functi
  */
 
 test('entitySystem should emit a removed event when an entity emits destroy', function (t) {
-  var customEntity,
+  var entity,
       eventEntity;
   setup(t);
   t.plan(2);
@@ -188,8 +188,8 @@ test('entitySystem should emit a removed event when an entity emits destroy', fu
     t.pass('entitySystem removed event fired.');
     eventEntity = entity;
   });
-  customEntity = entitySystem.create(CustomEntity);
-  customEntity.emit('destroy', customEntity);
-  t.equal(eventEntity, customEntity);
+  entity = entitySystem.create();
+  entity.emit('destroy', entity);
+  t.equal(eventEntity, entity);
   teardown(t);
 });
