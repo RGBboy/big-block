@@ -6,7 +6,8 @@
  * Module Dependencies
  */
 
-var EntitySystemMock;
+var EntitySystemMock,
+    EventEmitter = require('events').EventEmitter;
 
 /**
  * EntitySystemMock
@@ -17,7 +18,7 @@ var EntitySystemMock;
  */
 
 EntitySystemMock = function (sandbox) {
-  var entitySystem = sandbox.stub();
+  var entitySystem = new EventEmitter();
   entitySystem.create = sandbox.stub();
   entitySystem.forEach = sandbox.stub();
   entitySystem.getFamily = sandbox.stub();
