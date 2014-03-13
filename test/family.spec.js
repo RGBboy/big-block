@@ -1,3 +1,4 @@
+'use strict';
 /*!
  * Family unit tests
  */
@@ -9,6 +10,12 @@
 var test = require('tape'),
     sinon = require('sinon'),
     sandbox,
+    helpers = require('./helpers'),
+    EntitySystemMock = helpers.EntitySystem,
+    entitySystemMock,
+    components,
+    MockComponent1,
+    MockComponent2,
     FamilyProvider = require('../lib/family'),
     Family,
     family;
@@ -19,8 +26,12 @@ var test = require('tape'),
 
 var setup = function (t) {
   sandbox = sinon.sandbox.create();
+  MockComponent1 = sandbox.stub();
+  MockComponent2 = sandbox.stub();
+  components = [MockComponent1, MockComponent2];
+  entitySystemMock = EntitySystemMock(sandbox);
   Family = FamilyProvider();
-  family = Family();
+  family = Family(components, entitySystemMock);
 };
 
 /**
