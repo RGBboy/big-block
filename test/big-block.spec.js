@@ -48,6 +48,24 @@ test('BigBlock.di', function (t) {
 });
 
 /**
+ * instantiation
+ */
+
+test('BigBlock should instantiate all passed systems', function (t) {
+  var game,
+      TestSystem,
+      testSystem;
+
+  TestSystem = function () {
+    t.pass('TestSystem called');
+  };
+
+  t.plan(1);
+  game = BigBlock([TestSystem]);
+
+});
+
+/**
  * bigBlock.get
  */
 

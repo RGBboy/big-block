@@ -37,6 +37,9 @@ BigBlock = function (systems) {
     return injector.get(token);
   };
 
+  // In order to instantiate all passed systems we must call get on each of them;
+  coreSystems.forEach(self.get);
+
   return self;
 
 };
