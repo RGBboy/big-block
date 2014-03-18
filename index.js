@@ -43,6 +43,8 @@ BigBlock = function (systems) {
 
 BigBlock.EntitySystem = EntitySystem;
 
+BigBlock.di = di;
+
 /**
  * Module Exports
  */

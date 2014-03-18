@@ -42,6 +42,11 @@ test('BigBlock.EntitySystem', function (t) {
     t.ok(BigBlock.EntitySystem, 'class should exist');
 });
 
+test('BigBlock.di', function (t) {
+    t.plan(1);
+    t.equal(BigBlock.di, di);
+});
+
 /**
  * bigBlock.get
  */
