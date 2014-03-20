@@ -69,7 +69,13 @@ instantiated once in the lifetime of a game.
 
 `var BigBlock = require('big-block');`
 
+## BigBlock.di
+
+Reference to the di.js module;
+
 ## BigBlock.EntitySystem
+
+Reference to the EntitySystem class;
 
 ## var game = BigBlock([systems])
 
