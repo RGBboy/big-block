@@ -16,7 +16,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "di": "git+https://github.com/RGBboy/di.js.git#build-cjs",
+    "di": "2.0.0-pre-5",
     "es6-shim": "*"
   },
   "devDependencies": {
