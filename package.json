@@ -20,13 +20,12 @@
     "es6-shim": "*"
   },
   "devDependencies": {
-    "tape": "latest",
-    "sinon": "latest",
-    "browserify": "latest",
-    "testling": "latest"
+    "tape": "*",
+    "sinon": "*",
+    "testling": "*"
   },
   "testling": {
-    "files": [ "./test/*.spec.js"],
+    "files": [ "./test/*.spec.js", "./test/*.e2e.js"],
     "browsers": [
       "iexplore/9.0",
       "iexplore/10.0",
