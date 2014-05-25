@@ -24,7 +24,7 @@ var BigBlock,
 BigBlock = function (systems) {
 
   var self = {},
-      coreSystems = [EntitySystem, ComponentSystem, Component, Entity],
+      coreSystems = [EntitySystem, ComponentSystem],
       injector;
 
   if (systems) {

@@ -86,7 +86,7 @@ test('bigBlock.get should return a instantiated singleton', function (t) {
   };
 
   t.plan(2);
-  di.annotate(TestSystem, new di.InjectAnnotation(BigBlock.EntitySystem));
+  di.annotate(TestSystem, new di.Inject(BigBlock.EntitySystem));
   game = BigBlock([TestSystem]);
   testSystem = game.get(TestSystem);
 });

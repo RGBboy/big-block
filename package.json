@@ -16,7 +16,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "di": "2.0.0-pre-5",
+    "di": "2.0.0-pre-10",
     "es6-shim": "*"
   },
   "devDependencies": {
