@@ -74,3 +74,36 @@ test('family.forEach should be a function', function (t) {
   t.equal(typeof family.forEach, 'function');
   teardown(t);
 });
+
+/**
+ * family.compare
+ */
+
+test('family.compare should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof family.compare, 'function');
+  teardown(t);
+});
+
+/**
+ * family.compareTo
+ */
+
+test('family.compareTo should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof family.compareTo, 'function');
+  teardown(t);
+});
+
+/**
+ * family.compareUnique
+ */
+
+test('family.compareUnique should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof family.compareUnique, 'function');
+  teardown(t);
+});

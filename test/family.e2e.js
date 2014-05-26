@@ -46,7 +46,7 @@ var teardown = function (t) {
  * family.hasEntity
  */
 
-test('family.hasEntity should return a family', function (t) {
+test('family.hasEntity should return true for entities in family', function (t) {
   var customEntity1,
       customEntity2,
       customEntity3,
@@ -143,6 +143,35 @@ test('family.forEach should callback with the correct entities', function (t) {
       teardown(t);
     };
   });
+
+});
+
+test('family.forEach should callback with entity, index, family and correct context', function (t) {
+  var customEntity,
+      CustomComponent,
+      familyTokens,
+      family,
+      entities = [],
+      context = {};
+
+  setup(t);
+  t.plan(4);
+
+  CustomComponent = function () {};
+
+  familyTokens = [CustomComponent];
+
+  customEntity = entitySystem.create();
+  customEntity.addComponent(CustomComponent);
+
+  family = entitySystem.getFamily(familyTokens);
+
+  family.forEach(function (aEntity, aIndex, aFamily) {
+    t.equal(aEntity, customEntity)
+    t.equal(aIndex, 0);
+    t.equal(aFamily, family);
+    t.equal(this, context);
+  }, context);
 
 });
 
@@ -332,6 +361,225 @@ test('family.forEach should callback with the correct entities when entities hav
 
   t.equal(testCount, 1);
   teardown(t);
+
+});
+
+/**
+ * family.compare
+ */
+
+test('family.compare should callback with the correct entities', function (t) {
+  var customEntity1,
+      customEntity2,
+      customEntity3,
+      CustomComponent,
+      familyTokens,
+      family,
+      called = 0;
+
+  setup(t);
+  t.plan(19);
+
+  CustomComponent = function () {};
+
+  familyTokens = [CustomComponent];
+
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
+
+  customEntity1.addComponent(CustomComponent);
+  customEntity2.addComponent(CustomComponent);
+  customEntity3.addComponent(CustomComponent);
+
+  family = entitySystem.getFamily(familyTokens);
+
+  family.compare(function (entityA, entityB) {
+    called += 1;
+    t.ok(entityA === customEntity1 || entityA === customEntity2 || entityA === customEntity3, 'entityA equals one of the families entities');
+    t.ok(entityB === customEntity1 || entityB === customEntity2 || entityB === customEntity3, 'entityB equals one of the families entities');
+  });
+
+  t.equal(called, 9);
+
+});
+
+test('family.compare should callback with entityA, entityB and correct context', function (t) {
+  var customEntity,
+      CustomComponent,
+      familyTokens,
+      family,
+      context = {};
+
+  setup(t);
+  t.plan(3);
+
+  CustomComponent = function () {};
+
+  familyTokens = [CustomComponent];
+
+  customEntity = entitySystem.create();
+  customEntity.addComponent(CustomComponent);
+
+  family = entitySystem.getFamily(familyTokens);
+
+  family.compare(function (entityA, entityB) {
+    t.equal(entityA, customEntity);
+    t.equal(entityB, customEntity);
+    t.equal(this, context);
+  }, context);
+
+});
+
+/**
+ * family.compareTo
+ */
+
+test('family.compareTo should callback with the correct entities', function (t) {
+  var customEntityA1,
+      customEntityA2,
+      customEntityB1,
+      customEntityB2,
+      CustomComponentA,
+      CustomComponentB,
+      familyATokens,
+      familyBTokens,
+      familyA,
+      familyB,
+      called = 0;
+
+  setup(t);
+  t.plan(9);
+
+  CustomComponentA = function () {};
+  customEntityA1 = entitySystem.create();
+  customEntityA2 = entitySystem.create();
+  customEntityA1.addComponent(CustomComponentA);
+  customEntityA2.addComponent(CustomComponentA);
+  familyATokens = [CustomComponentA];
+  familyA = entitySystem.getFamily(familyATokens);
+
+  CustomComponentB = function () {};
+  customEntityB1 = entitySystem.create();
+  customEntityB2 = entitySystem.create();
+  customEntityB1.addComponent(CustomComponentB);
+  customEntityB2.addComponent(CustomComponentB);
+  familyBTokens = [CustomComponentB];
+  familyB = entitySystem.getFamily(familyBTokens);
+
+  familyA.compareTo(familyB, function (entityA, entityB) {
+    called += 1;
+    t.ok(entityA === customEntityA1 || entityA === customEntityA2, 'entityA equals one of the families entities');
+    t.ok(entityB === customEntityB1 || entityB === customEntityB2, 'entityB equals one of the families entities');
+  });
+
+  t.equal(called, 4);
+
+});
+
+test('family.compareTo should callback with entityA, entityB and correct context', function (t) {
+  var customEntityA,
+      customEntityB,
+      CustomComponentA,
+      CustomComponentB,
+      familyATokens,
+      familyBTokens,
+      familyA,
+      familyB,
+      context = {};
+
+  setup(t);
+  t.plan(3);
+
+  CustomComponentA = function () {};
+  familyATokens = [CustomComponentA];
+  customEntityA = entitySystem.create();
+  customEntityA.addComponent(CustomComponentA);
+  familyA = entitySystem.getFamily(familyATokens);
+
+  CustomComponentB = function () {};
+  familyBTokens = [CustomComponentB];
+  customEntityB = entitySystem.create();
+  customEntityB.addComponent(CustomComponentB);
+  familyB = entitySystem.getFamily(familyBTokens);
+
+  familyA.compareTo(familyB, function (entityA, entityB) {
+    t.equal(entityA, customEntityA);
+    t.equal(entityB, customEntityB);
+    t.equal(this, context);
+  }, context);
+
+});
+
+/**
+ * family.compareUnique
+ */
+
+test('family.compareUnique should callback with the correct entities', function (t) {
+  var customEntity1,
+      customEntity2,
+      customEntity3,
+      CustomComponent,
+      familyTokens,
+      family,
+      called = 0;
+
+  setup(t);
+  t.plan(10);
+
+  CustomComponent = function () {};
+
+  familyTokens = [CustomComponent];
+
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
+
+  customEntity1.addComponent(CustomComponent);
+  customEntity2.addComponent(CustomComponent);
+  customEntity3.addComponent(CustomComponent);
+
+  family = entitySystem.getFamily(familyTokens);
+
+  family.compareUnique(function (entityA, entityB) {
+    called += 1;
+    t.ok(entityA === customEntity1 || entityA === customEntity2 || entityA === customEntity3, 'entityA equals one of the families entities');
+    t.ok(entityB === customEntity1 || entityB === customEntity2 || entityB === customEntity3, 'entityB equals one of the families entities');
+    t.ok(entityA !== entityB, 'entityA should not equal entityB');
+  });
+
+  t.equal(called, 3);
+
+});
+
+test('family.compareUnique should callback with entityA, entityB and correct context', function (t) {
+  var customEntity1,
+      customEntity2,
+      CustomComponent,
+      familyTokens,
+      family,
+      context = {};
+
+  setup(t);
+  t.plan(3);
+
+  CustomComponent = function () {};
+
+  familyTokens = [CustomComponent];
+
+  customEntity1 = entitySystem.create();
+  customEntity1.addComponent(CustomComponent);
+
+  customEntity2 = entitySystem.create();
+  customEntity2.addComponent(CustomComponent);
+
+  family = entitySystem.getFamily(familyTokens);
+
+  family.compareUnique(function (entityA, entityB) {
+    t.equal(entityA, customEntity1);
+    t.equal(entityB, customEntity2);
+    t.equal(this, context);
+  }, context);
 
 });
 
