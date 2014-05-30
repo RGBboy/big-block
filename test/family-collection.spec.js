@@ -93,23 +93,27 @@ test('familyCollection.set should be a function', function (t) {
   teardown(t);
 });
 
-test('familyCollection.set should throw if passed an array of 0 length', function (t) {
+test('familyCollection.set should throw if not passed an array', function (t) {
+  var value = {};
   setup(t);
-  t.plan(1);
+  t.plan(3);
   t.throws(function () {
-    familyCollection.set([], value);
+    familyCollection.set(undefined, value);
   });
-  teardown(t);
-});
-
-test('familyCollection.set should throw if not passed an array of tokens', function (t) {
-  setup(t);
-  t.plan(2);
   t.throws(function () {
     familyCollection.set({}, value);
   });
   t.throws(function () {
     familyCollection.set('t', value);
   });
+  teardown(t);
+});
+
+test('familyCollection.set and familyCollection.get should store when passed an empty array', function (t) {
+  var value = {};
+  setup(t);
+  t.plan(1);
+  familyCollection.set([], value);
+  t.equal(familyCollection.get([]), value);
   teardown(t);
 });

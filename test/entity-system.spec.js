@@ -177,6 +177,19 @@ test('entitySystem.getFamily should return the same family if it exists', functi
   teardown(t);
 });
 
+test('entitySystem.getFamily should return all entities if passed an empty array', function (t) {
+  var entities = [],
+      family;
+  setup(t);
+  t.plan(1);
+  entitySystem.create();
+  entitySystem.create();
+  family = entitySystem.getFamily([]);
+  entitySystem.create();
+  t.equal(family.length, 3);
+  teardown(t);
+});
+
 /**
  * entitySystem removed event
  */
