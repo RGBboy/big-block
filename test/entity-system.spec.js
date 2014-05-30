@@ -13,9 +13,9 @@ var test = require('tape'),
     helpers = require('./helpers'),
     EntitySystem = require('../lib/entity-system'),
     entitySystem,
+    Family = require('../lib/family')(),
     CustomEntity,
     EntityMock,
-    FamilyMock,
     createdEntities;
 
 /**
@@ -30,9 +30,8 @@ var setup = function (t) {
     createdEntities.push(entity);
     return entity;
   };
-  FamilyMock = sandbox.stub();
   CustomEntity = sandbox.stub();
-  entitySystem = new EntitySystem(FamilyMock, EntityMock);
+  entitySystem = new EntitySystem(Family, EntityMock);
 };
 
 /**
@@ -147,10 +146,13 @@ test('entitySystem.getFamily should be a function', function (t) {
 });
 
 test('entitySystem.getFamily should return a family', function (t) {
-  var family,
+  var FamilyMock,
+      family,
       Component1 = function () {},
       Component2 = function () {};
   setup(t);
+  FamilyMock = sandbox.stub();
+  entitySystem = new EntitySystem(FamilyMock, EntityMock);
   t.plan(6);
   family = entitySystem.getFamily([Component1, Component2]);
   t.ok(family instanceof FamilyMock, 'return value should be instance of Family');
