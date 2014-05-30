@@ -43,6 +43,64 @@ var teardown = function (t) {
 };
 
 /**
+ * family.length
+ */
+
+test('family.length should equal the number of entities', function (t) {
+  var customEntity1,
+      customEntity2,
+      customEntity3,
+      CustomComponent1,
+      CustomComponent2,
+      CustomComponent3,
+      familyTokens,
+      family,
+      testCount = 0,
+      expectedFamilyEntities,
+      entities = [];
+
+  setup(t);
+  t.plan(3);
+
+  CustomComponent1 = function () {};
+  CustomComponent2 = function () {};
+  CustomComponent3 = function () {};
+
+  familyTokens = [CustomComponent1, CustomComponent2];
+
+  customEntity1 = entitySystem.create();
+  customEntity2 = entitySystem.create();
+  customEntity3 = entitySystem.create();
+
+  customEntity1.addComponent(CustomComponent1);
+  customEntity1.addComponent(CustomComponent2);
+  
+  customEntity2.addComponent(CustomComponent1);
+  customEntity2.addComponent(CustomComponent2);
+  customEntity2.addComponent(CustomComponent3);
+
+  customEntity3.addComponent(CustomComponent1);
+  customEntity3.addComponent(CustomComponent3);
+
+  expectedFamilyEntities = [customEntity1, customEntity2];
+
+  family = entitySystem.getFamily(familyTokens);
+
+  t.equal(family.length, 2);
+
+  customEntity2.destroy();
+
+  t.equal(family.length, 1);
+
+  customEntity3.addComponent(CustomComponent2);
+
+  t.equal(family.length, 2);
+
+  teardown(t);
+
+});
+
+/**
  * family.hasEntity
  */
 

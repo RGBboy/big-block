@@ -54,6 +54,17 @@ test('Family', function (t) {
 });
 
 /**
+ * family.length
+ */
+
+test('family.length should be a number', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof family.length, 'number');
+  teardown(t);
+});
+
+/**
  * family.hasEntity
  */
 
