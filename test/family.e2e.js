@@ -88,7 +88,7 @@ test('family.length should equal the number of entities', function (t) {
 
   t.equal(family.length, 2);
 
-  customEntity2.destroy();
+  customEntity2.destroyImmediate();
 
   t.equal(family.length, 1);
 
@@ -361,7 +361,7 @@ test('family.forEach should callback with the correct entities when entities are
   customEntity2.addComponent(CustomComponent1);
   customEntity2.addComponent(CustomComponent2);
 
-  customEntity2.destroy();
+  customEntity2.destroyImmediate();
 
   expectedFamilyEntities = [customEntity1];
 
