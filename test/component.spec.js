@@ -43,6 +43,24 @@ test('Component should exist', function (t) {
 });
 
 /**
+ * component.entity
+ */
+
+test('component.entity should be an object', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof component.entity, 'object');
+  teardown(t);
+});
+
+test('component.entity should be the entity that this component is attached to', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(component.entity, entity);
+  teardown(t);
+});
+
+/**
  * component.getComponent
  */
 
