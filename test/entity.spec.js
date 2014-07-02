@@ -238,18 +238,60 @@ test('entity.destroy should emit a destroy event', function (t) {
     entity.on('destroy', function (data) {
       t.pass('destroy fired');
       t.equal(entity, data);
+      teardown(t);
     });
     entity.destroy();
+});
+
+test('entity.destroy should call destroyImmediate at end of current event loop', function (t) {
+
+    setup(t);
+    t.plan(2);
+
+    sandbox.spy(entity, 'destroyImmediate');
+
+    entity.destroy();
+
+    t.false(entity.destroyImmediate.calledOnce, 'entity.destroyImmediate should not be called');
+
+    // destroyImmediate is called at end of current event loop
+    process.nextTick(function () {
+      t.true(entity.destroyImmediate.calledOnce, 'entity.destroyImmediate should be called');
+      teardown(t);
+    });
+    
+});
+
+/**
+ * entity.destroyImmediate
+ */
+
+test('entity.destroyImmediate should be a function', function (t) {
+    setup(t);
+    t.plan(1);
+    t.equal(typeof entity.destroyImmediate, 'function');
     teardown(t);
 });
 
-test('entity.destroy should call destroy on all components', function (t) {
+test('entity.destroyImmediate should emit a destroy event', function (t) {
+    setup(t);
+    t.plan(2);
+    entity.on('destroy', function (data) {
+      t.pass('destroy fired');
+      t.equal(entity, data);
+      teardown(t);
+    });
+    entity.destroyImmediate();
+});
+
+test('entity.destroyImmediate should call destroy on all components', function (t) {
     var CustomComponent1 = function () {},
         CustomComponent2 = function () {},
         componentMock1 = ComponentMock(sandbox),
         componentMock2 = ComponentMock(sandbox),
         returnedComponent1,
         returnedComponent2;
+
     setup(t);
     t.plan(2);
 
@@ -257,10 +299,11 @@ test('entity.destroy should call destroy on all components', function (t) {
     returnedComponent1 = entity.addComponent(CustomComponent1);
     componentSystemMock.create.returns(componentMock2);
     returnedComponent2 = entity.addComponent(CustomComponent2);
-    entity.destroy();
+    entity.destroyImmediate();
 
     t.ok(returnedComponent1.destroy.calledOnce, 'component.destroy is called once');
     t.ok(returnedComponent2.destroy.calledOnce, 'component.destroy is called once');
 
     teardown(t);
+
 });
