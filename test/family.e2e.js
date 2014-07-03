@@ -8,17 +8,8 @@
  */
 
 var test = require('tape'),
-    sinon = require('sinon'),
-    sandbox,
-    FamilyProvider = require('../lib/family'),
-    ComponentProvider = require('../lib/component'),
-    ComponentSystem = require('../lib/component-system'),
-    EntityProvider = require('../lib/entity'),
+    di = require('di'),
     EntitySystem = require('../lib/entity-system'),
-    Family,
-    Component,
-    componentSystem,
-    Entity,
     entitySystem;
 
 /**
@@ -26,12 +17,8 @@ var test = require('tape'),
  */
 
 var setup = function (t) {
-  sandbox = sinon.sandbox.create();
-  Family = FamilyProvider();
-  Component = ComponentProvider();
-  componentSystem = ComponentSystem(Component);
-  Entity = EntityProvider(componentSystem);
-  entitySystem = EntitySystem(Family, Entity);
+  var injector = new di.Injector();
+  entitySystem = injector.get(EntitySystem);
 };
 
 /**
@@ -39,7 +26,7 @@ var setup = function (t) {
  */
 
 var teardown = function (t) {
-  sandbox.restore();
+
 };
 
 /**
