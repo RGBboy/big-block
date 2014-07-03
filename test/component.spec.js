@@ -96,7 +96,48 @@ test('component should emit a destroy event when destroy is called', function (t
   component.on('destroy', function (data) {
     t.pass('fire destroy');
     t.equal(component, data);
+    teardown(t);
   });
   component.destroy();
+});
+
+test('component.destroy should call destroyImmediate at end of current event loop', function (t) {
+
+  setup(t);
+  t.plan(2);
+
+  sandbox.spy(component, 'destroyImmediate');
+
+  component.destroy();
+
+  t.false(component.destroyImmediate.calledOnce, 'component.destroyImmediate should not be called');
+
+  // destroyImmediate is called at end of current event loop
+  process.nextTick(function () {
+    t.true(component.destroyImmediate.calledOnce, 'component.destroyImmediate should be called');
+    teardown(t);
+  });
+  
+});
+
+/**
+ * component.destroyImmediate
+ */
+
+test('component.destroyImmediate should be a function', function (t) {
+  setup(t);
+  t.plan(1);
+  t.equal(typeof component.destroyImmediate, 'function');
   teardown(t);
+});
+
+test('component.destroyImmediate should emit a destroy event', function (t) {
+  setup(t);
+  t.plan(2);
+  component.on('destroy', function (data) {
+    t.pass('fire destroy');
+    t.equal(component, data);
+    teardown(t);
+  });
+  component.destroyImmediate();
 });
